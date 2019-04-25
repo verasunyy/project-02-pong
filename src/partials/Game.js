@@ -27,10 +27,12 @@ export default class Game {
     this.board = new Board(this.width, this.height);
 
     this.p1 = new Paddle(this.height, this.paddleWidth, this.paddleHeight, 
-                          this.boardGap, ((this.height - this.paddleHeight) / 2));
+                          this.boardGap, ((this.height - this.paddleHeight) / 2),
+                          KEYS.a, KEYS.z);
     this.p2 = new Paddle(this.height, this.paddleWidth, this.paddleHeight, 
                           this.width -this.paddleWidth-this.boardGap, 
-                          ((this.height - this.paddleHeight) / 2));
+                          ((this.height - this.paddleHeight) / 2),
+                          KEYS.up, KEYS.down);
     // Other code goes here...
   }
 
