@@ -1,5 +1,4 @@
 import { SVG_NS } from '../settings';
-import { RSA_PKCS1_OAEP_PADDING } from 'constants';
 /* <rect id='paddal1' x='10' y='100' width='8' height='56'  
 rx='3' ry='3' fill='yellow'/> */
 
@@ -19,6 +18,8 @@ export default class Paddle {
         //   });
 
         document.addEventListener('keydown', event => {
+            // console.log(event);
+            // console.log(event.key);
             switch (event.key) {
                 case up:
                     // console.log('up');
@@ -30,15 +31,15 @@ export default class Paddle {
                 break;
             }
         });
-    }
+    }//end of constructor
 
     render(svg) {
         let rect = document.createElementNS(SVG_NS, 'rect');
         rect.setAttributeNS(null, 'fill', "yellow");
         rect.setAttributeNS(null, 'width', this.width);
         rect.setAttributeNS(null, 'height', this.height);
-        rect.setAttributeNS(null, 'stroke', 'strokeColor');
-        rect.setAttributeNS(null, 'stroke-width', '4');
+        rect.setAttributeNS(null, 'stroke', this.strokeColor);
+        rect.setAttributeNS(null, 'stroke-width', '5');
         rect.setAttributeNS(null, 'x', this.x);
         rect.setAttributeNS(null, 'y', this.y);
         rect.setAttributeNS(null, 'rx', '3');
