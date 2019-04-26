@@ -32,11 +32,29 @@ export default class Game {
 
     this.ball = new Ball(this.radius, this.width, this.height, 'red');
     // Other code goes here...
+
+    document.addEventListener('keydown', event=> {
+      // console.log(event);
+      switch(event.key){
+        case KEYS.spaceBar:
+          this.pause = !this.pause;
+        break;
+      }
+      console.log(this.pause);
+    });
   }
+
+  // pause(){
+
+  // }
 
 
   render() {
     // More code goes here....
+    //pause
+    if(this.pause){
+      return;
+    }
 
     //fix the bug :see slide 14
     this.gameElement.innerHTML='';
@@ -53,7 +71,7 @@ export default class Game {
     this.p1.render(svg);
     this.p2.render(svg);
     // console.log(this.p1);
-    this.ball.render(svg,this.p1,this.p1);
+    this.ball.render(svg,this.p1,this.p2);
 
 
   }
