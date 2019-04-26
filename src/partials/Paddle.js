@@ -12,6 +12,7 @@ export default class Paddle {
         this.speed = 50;
         this.score = 0;
         this.strokeColor = strokeColor;
+        this.pauseIndicator = 1;
 
         // document.addEventListener("keydown", event => {
         //     console.log(event);
@@ -20,6 +21,7 @@ export default class Paddle {
         document.addEventListener('keydown', event => {
             // console.log(event);
             // console.log(event.key);
+            if (this.pauseIndicator !== 0){
             switch (event.key) {
                 case up:
                     // console.log('up');
@@ -30,6 +32,7 @@ export default class Paddle {
                     this.down();
                 break;
             }
+        }
         });
     }//end of constructor
 

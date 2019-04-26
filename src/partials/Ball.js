@@ -10,9 +10,15 @@ export default class Ball {
         this.direction = 1;
 
         this.strokeColor = ballcolor;
+        
+        //songs
+        this.ping = new Audio('public/sounds/pong-01.wav');
+
+
+
         this.reset();
         this.wallCollision();
-    }
+    }//end of constructor
 
     // Ball.js
     reset() {
@@ -52,42 +58,64 @@ export default class Ball {
                 (this.x + this.radius >= leftX) &&
                 (this.x + this.radius <= rightX) &&
                 (this.y >= topY && this.y <= bottomY)
-                ) {
-                this.vx=-this.vx;
+            ) {
+                this.vx = -this.vx;
+                this.ping.play();
             }
         }
         else {
             let paddle = p1.coordinates(p1.x, p1.y, p1.width, p1.height);
             let [leftX, rightX, topY, bottomY] = paddle;
-            if(
-                (this.x-this.radius<=rightX)&&
-                (this.x-this.radius>= leftX)&&
+            if (
+                (this.x - this.radius <= rightX) &&
+                (this.x - this.radius >= leftX) &&
                 (this.y >= topY && this.y <= bottomY)
-            )
-            {
-                this.vx= -this.vx;
+            ) {
+                this.vx = -this.vx;
+                this.ping.play();
             }
         }
     }
 
-        render(svg, p1, p2) {
-            //update x position with vecotr direction 60 times a second
-            this.x += this.vx;
-            this.y += this.vy;
+    goal(player){
+        player.score++;
+        this.reset();
+        console.log(player.score)
+    }
 
-            this.wallCollision();
-            this.paddleCollision(p1, p2);
-            // <circle cx="256" cy="128" r="8" fill="red"/>
-            let circle = document.createElementNS(SVG_NS, 'circle');
-            circle.setAttributeNS(null, 'fill', 'rgba(0,0,0,0.5');
-            circle.setAttributeNS(null, 'cx', this.x);
-            circle.setAttributeNS(null, 'cy', this.y);
-            circle.setAttributeNS(null, 'r', this.radius);
-            circle.setAttributeNS(null, 'stroke', this.strokeColor);
-            circle.setAttributeNS(null, 'stroke-width', '2');
-            // circle.setAttributeNS(null, 'x', this.x);
-            // circle.setAttributeNS(null, 'y', this.y);
+    render(svg, p1, p2) {
+        //update x position with vecotr direction 60 times a second
+        this.x += this.vx;
+        this.y += this.vy;
 
-            svg.appendChild(circle);
-        }//end of constructor
-    }//end of the Ball clss
+        this.wallCollision();
+        this.paddleCollision(p1, p2);
+        // <circle cx="256" cy="128" r="8" fill="red"/>
+        let circle = document.createElementNS(SVG_NS, 'circle');
+        circle.setAttributeNS(null, 'fill', 'rgba(0,0,0,0.5');
+        circle.setAttributeNS(null, 'cx', this.x);
+        circle.setAttributeNS(null, 'cy', this.y);
+        circle.setAttributeNS(null, 'r', this.radius);
+        circle.setAttributeNS(null, 'stroke', this.strokeColor);
+        circle.setAttributeNS(null, 'stroke-width', '2');
+        // circle.setAttributeNS(null, 'x', this.x);
+        // circle.setAttributeNS(null, 'y', this.y);
+
+        svg.appendChild(circle);
+
+        const rightGoal = this.x + this.radius >= this.boardWidth;
+        const leftGoal = this.x - this.radius <= 0;
+        if(rightGoal){
+            this.goal(p1);
+            this.direction = 1;
+        }
+        else if (leftGoal){
+            this.goal(p2);
+            this.direction = -1;
+        }
+    }
+
+
+
+
+}//end of the Ball clss
