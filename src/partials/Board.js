@@ -23,9 +23,28 @@ export default class Board {
     //   stroke-linecap='round' 
         line.setAttributeNS(null, 'stroke-linecap','round');
 
-
+        //indicators
+        let text1 = document.createElementNS(SVG_NS, 'text');
+        text1.setAttributeNS(null, 'x', '80');
+        text1.setAttributeNS(null, 'y', '380');
+        text1.setAttributeNS(null, 'font-family', '"Silkscreen Web", monotype');
+        text1.setAttributeNS(null, 'font-size', '10');
+        text1.setAttributeNS(null, 'fill', 'yellow');
+        text1.textContent='PRESS r TO RESTART';
+        let text2 = document.createElementNS(SVG_NS, 'text');
+        text2.setAttributeNS(null, 'x','420' );
+        text2.setAttributeNS(null, 'y', '380');
+        text2.setAttributeNS(null, 'font-family', '"Silkscreen Web", monotype');
+        text2.setAttributeNS(null, 'font-size', '10');
+        text2.setAttributeNS(null, 'fill', 'yellow');
+        text2.textContent='PRESS SpaceBar TO Pause';
+        
+      svg.appendChild(text1);
+      svg.appendChild(text2);
       svg.appendChild(rect);
       svg.appendChild(line);
+      svg.appendChild(text1);
+      svg.appendChild(text2);
       
 
     }

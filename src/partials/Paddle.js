@@ -37,7 +37,6 @@ export default class Paddle {
     }//end of constructor
 
     render(svg) {
-
         let rect = document.createElementNS(SVG_NS, 'rect');
         rect.setAttributeNS(null, 'fill', "yellow");
         rect.setAttributeNS(null, 'width', this.width);
@@ -55,7 +54,7 @@ export default class Paddle {
     up(){
         if((this.y-this.speed)>0)
         {
-        this.y = this.y - this.speed;
+            this.y = this.y - this.speed;
         }
         else{
             this.y=0;
@@ -66,7 +65,7 @@ export default class Paddle {
     down(){
         if((this.y+this.speed+this.height)<this.boardHeight)
         {
-        this.y = this.y + this.speed;
+            this.y = this.y + this.speed;
         }
         else{
             this.y = this.boardHeight-this.height;
@@ -81,6 +80,8 @@ export default class Paddle {
         let bottomY = y+height;
         return [leftX, rightX, topY, bottomY];
     }
+    
+
 
 
 

@@ -7,5 +7,18 @@ export const KEYS = {
     z: 'z',        // player 1 down key
     up: 'ArrowUp',       // player 2 up key
     down: 'ArrowDown',     // player 2 down key
-    spaceBar: ' ' // we'll use this later...
+    spaceBar: ' ' ,// pause game
+    g: 'g', //restart game
+    s: 's', //sigle player
+    t: 't', //two player
+    d: 'd', //demo
+
+    l: 'l', //play left
+    r: 'r',//play right
+
+    e: 'e',//easy mode
+    h: 'h',//hard mode
+    m: 'm',//medium hard mode
   }
+
+

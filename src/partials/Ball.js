@@ -3,18 +3,30 @@ import { SVG_NS } from '../settings';
 
 
 export default class Ball {
-    constructor(radius, boardWidth, boardHeight, ballcolor) {
+    constructor(radius, boardWidth, boardHeight, ballcolor, difficalty) {
         this.radius = radius;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
-        this.direction = 1;
+        this.direction = -1;
 
         this.strokeColor = ballcolor;
         
         //songs
         this.ping = new Audio('public/sounds/pong-01.wav');
 
-
+        //acceleration
+        if(this.difficalty==='easy'){
+            this.ballAcceleration = 0.1;
+            }
+            else if(this.difficalty === 'medium'){
+                this.ballAcceleration = 0.2;
+            }
+            else if(this.difficalty === 'hard'){
+                this.ballAcceleration = 0.3;
+            }
+            else {
+                this.ballAcceleration = 0.2;
+            }
 
         this.reset();
         this.wallCollision();
@@ -27,10 +39,10 @@ export default class Ball {
 
         this.vy = 0;
         this.vx = 0;
-        while (this.vx === 0) {
+        while (this.vy === 0) {
             this.vy = Math.floor(Math.random() * 10 - 5);
-            this.vx = Math.floor(Math.random() * 10 - 5);
-            // this.vx = this.direction * (6 - Math.abs(this.vy));
+            // this.vx = Math.floor(Math.random() * 10 - 5);
+            this.vx = Math.max(this.direction * (6 - Math.abs(this.vy),2.5));
         }
     }
 
@@ -59,6 +71,7 @@ export default class Ball {
                 (this.x + this.radius <= rightX) &&
                 (this.y >= topY && this.y <= bottomY)
             ) {
+                this.vx += this.vx*this.ballAcceleration;
                 this.vx = -this.vx;
                 this.ping.play();
             }
@@ -71,6 +84,7 @@ export default class Ball {
                 (this.x - this.radius >= leftX) &&
                 (this.y >= topY && this.y <= bottomY)
             ) {
+                this.vx += this.vx*this.ballAcceleration;
                 this.vx = -this.vx;
                 this.ping.play();
             }
@@ -80,7 +94,7 @@ export default class Ball {
     goal(player){
         player.score++;
         this.reset();
-        console.log(player.score)
+        // console.log(player.score)
     }
 
     render(svg, p1, p2) {
