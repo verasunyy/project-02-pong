@@ -4,6 +4,8 @@ import Paddle from  './Paddle';
 import Ball from './Ball';
 import Score from './Score';
 import AIPaddle from './AIPaddle';
+import RedBall from './RedBall';
+import GreenBall from './GreenBall';
 
 
 export default class Game {
@@ -18,6 +20,8 @@ export default class Game {
     this.boardGap = 10;
 
     this.radius = 15;
+    this.redBallRadius = 20;
+    this.greenBallRadius = 10;
     this.p1Color='rgba(0,76,153,0.5)';
     this.p2Color='rgba(148,0,211,0.5)';
 
@@ -26,18 +30,44 @@ export default class Game {
 
     this.page = startGame.page;
 
-    this.gameElement = document.getElementById(this.element);
-
-    this.board = new Board(this.width, this.height);
-    this.ball = new Ball(this.radius, this.width, this.height, 'red');
-
-
-
     this.numberOfPlayer = startGame.numberOfPlayer;
     this.position = startGame.position;
     this.difficalty = startGame.difficalty;
 
-    this.winningPoint=10;
+
+
+    
+
+
+    this.gameElement = document.getElementById(this.element);
+
+    this.board = new Board(this.width, this.height);
+    this.ball = new Ball(this.radius, this.width, this.height, 'yellow', this.difficalty);
+  
+    if(this.difficalty ==='hard'){
+      this.numberOfGreenBall = 6;
+      this.numberOfRedBall = 1;
+      this.winningPoint=100;
+    }
+    else{
+      this.numberOfRedBall = 0;
+      this.numberOfGreenBall = 1;
+      this.winningPoint=50;
+    }
+
+    this.greenBalls = [];
+    for(let i=0; i<=this.numberOfGreenBall; i++){
+      this.greenBall = new GreenBall(this.greenBallRadius, this.width, this.height, "black", this.difficalty);
+      this.greenBalls.push(this.greenBall);
+    }
+    this.redBalls = [];
+    for(let i=0; i<=this.numberOfRedBall; i++){
+      this.redBall = new RedBall(this.redBallRadius, this.width, this.height, "black", this.difficalty);
+      this.redBalls.push(this.redBall);
+    }
+
+
+
 
 
     if(this.numberOfPlayer===0){
@@ -79,7 +109,7 @@ export default class Game {
     }
     // Other code goes here...
 
-    this.score1 = new Score(this.width/2-50, 30, 50, this.p1Color );
+    this.score1 = new Score(this.width/2-100, 30, 50, this.p1Color );
     this.score2 = new Score(this.width/2+25, 30, 50, this.p2Color );
     this.winnerP1= new Score(this.width/8, this.height/3,50, this.p1Color);
     this.losserP2= new Score(this.width*5/8, this.height/3,50, this.p2Color);
@@ -100,6 +130,7 @@ export default class Game {
 
     
   }
+
 
 
   render() {
@@ -150,6 +181,29 @@ export default class Game {
       return;
     }
     this.ball.render(svg,this.p1,this.p2);
+    if(this.ball.round !==0 && (this.ball.round%3===0 || this.ball.round%4===0)){
+      this.redBalls.forEach(redBall => {
+        redBall.render(svg,this.p1,this.p2);
+      });
+  }else{
+    this.redBalls.forEach(redBall => {
+    redBall.stop();
+    redBall.reset();
+    });
+  }
+  if(this.ball.round !==0 && (this.ball.round%4===0 || this.ball.round%5===0)){
+    this.greenBalls.forEach(greenBall => {
+      greenBall.render(svg,this.p1,this.p2);
+    });
+  }else{
+    this.greenBalls.forEach(greenBall => {
+      greenBall.stop();
+      greenBall.reset();
+    });
+
+  }
+
+
 
 
     this.score1.render(svg,this.p1.score);

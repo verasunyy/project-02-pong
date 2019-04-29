@@ -7,7 +7,9 @@ export default class Ball {
         this.radius = radius;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
+        this.difficalty = difficalty;
         this.direction = 0;
+        this.round=0;
         if(this.direction===0 ){
             if(Math.floor(Math.random()*10)%2){
             this.direction = -1;
@@ -33,7 +35,7 @@ export default class Ball {
                 this.ballAcceleration = 0.3;
             }
             else {
-                this.ballAcceleration = 0.2;
+                this.ballAcceleration = 0.1;
             }
 
         this.reset();
@@ -57,16 +59,11 @@ export default class Ball {
 
     //wall collision
     wallCollision() {
-        const hitLeft = this.x - this.radius <= 0;
-        const hitRight = this.x + this.radius >= this.boardWidth;
         const hitTop = this.y - this.radius <= 0;
         const hitBottom = this.y + this.radius >= this.boardHeight;
 
         if (hitTop || hitBottom) {
             this.vy = -this.vy;
-        }
-        else if (hitLeft || hitRight) {
-            this.vx = -this.vx;
         }
     }
 
@@ -82,6 +79,7 @@ export default class Ball {
             ) {
                 this.vx += this.vx*this.ballAcceleration;
                 this.vx = -this.vx;
+                this.vy += this.vy*this.ballAcceleration/2;
                 this.ping.play();
             }
         }
@@ -95,6 +93,7 @@ export default class Ball {
             ) {
                 this.vx += this.vx*this.ballAcceleration;
                 this.vx = -this.vx;
+                this.vy += this.vy*this.ballAcceleration;
                 this.ping.play();
             }
         }
@@ -103,6 +102,7 @@ export default class Ball {
     goal(player){
         player.score++;
         this.reset();
+        this.round++;
         // console.log(player.score)
     }
 
@@ -131,12 +131,17 @@ export default class Ball {
         if(rightGoal){
             this.direction = -1;
             this.goal(p1);
+            if(this.difficalty === 'hard'){
+            p1.height=p1.height-0.1*p1.height;
+            }
         }
         else if (leftGoal){
             this.direction = 1;
             this.goal(p2);
+            if(this.difficalty === 'hard'){
+            p2.height=p2.height-0.1*p2.height;
+            }
         }
-        console.log('score' +this.direction);
     }
 
 

@@ -1,7 +1,6 @@
 import './styles/game.css';
 import Game from './partials/Game';
 import StartGame from './partials/StartGame';
-import { SVG_NS } from './settings';
 
 
 // create a game instance
@@ -10,6 +9,8 @@ function gameLoop() {
 
   
   const game = new Game('game', startGame);
+  
+  setInterval(game.redBallSprawns, 5000);
 
   (function ruleLoop() {
     startGame.start();
@@ -34,5 +35,4 @@ function gameLoop() {
 }
 
 gameLoop();
-
 
