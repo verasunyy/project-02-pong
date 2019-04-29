@@ -1,13 +1,18 @@
 import { SVG_NS, KEYS } from '../settings';
+import Board from './Board';
 
 export default class StartGame {
-    constructor(restart, page, numberOfPlayer, position, difficalty) {
-        this.page = page;
-        this.restart = restart;
-        this.numberOfPlayer = numberOfPlayer;
-        this.position = position;
-        this.difficalty = difficalty;
-
+    constructor(element, width, height) {
+        this.element = element;
+        this.width = width;
+        this.height = height;
+        this.page = 0;
+        this.restart = true;
+        this.numberOfPlayer = 0;
+        this.position = 'right';
+        this.difficalty = 'easy';
+        this.startGameElement = document.getElementById(this.element);
+        this.board = new Board(this.width, this.height);
     }
     keyEvent() {
         document.addEventListener('keydown', event => {
@@ -42,17 +47,43 @@ export default class StartGame {
                     this.position = 'left';
                     this.restart = false;
                     this.page = 0;
-                    
-                    console.log(this.restart);
                     break;
                 case KEYS.r:
                     this.position = 'right';
                     this.restart = false;
                     this.page = 0;
                     break;
+                    case KEYS.g:
+                    this.restart = true;
+                    break;
             }
         });
     }
+    start(){
+        this.startGameElement.innerHTML='';
+        let svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttributeNS(null, 'width', this.width);
+        svg.setAttributeNS(null, 'height', this.height);
+        svg.setAttributeNS(null, 'viewBox', `0 0 ${this.width} ${this.height}`);
+        this.startGameElement.appendChild(svg);
+        this.board.render(svg);
+        this.keyEvent();
+        if(this.restart){
+          if (this.page === 0) {
+            this.startSecondPage(svg);
+            return;
+            }
+          else if (this.page === 1) {
+            this.startFirstPage(svg);
+            return;
+          }
+          else if (this.page === 2) {
+            this.startThirdPage(svg);
+            return;
+          }
+        }
+    
+      }
 
 
     startFirstPage(svg) {

@@ -4,15 +4,14 @@ import Paddle from  './Paddle';
 import Ball from './Ball';
 import Score from './Score';
 import AIPaddle from './AIPaddle';
-import StartGame from './StartGame';
 
 
 export default class Game {
 
-  constructor(element, width, height) {
+  constructor(element, startGame) {
     this.element = element;
-    this.width = width;
-    this.height = height;
+    this.width = startGame.width;
+    this.height = startGame.height;
 
     this.paddleWidth = 12;
     this.paddleHeight = 85;
@@ -23,12 +22,9 @@ export default class Game {
     this.p2Color='rgba(148,0,211,0.5)';
 
 
-    this.restart = true;
+    this.restart = startGame.restart;
 
-    this.page = 0;
-
-    this.startGame = new StartGame (this.restart, this.page, this.numberOfPlayer, this.position, this.difficalty);
-    this.startGame.keyEvent();
+    this.page = startGame.page;
 
     this.gameElement = document.getElementById(this.element);
 
@@ -37,21 +33,24 @@ export default class Game {
 
 
 
-    this.numberOfPlayer = this.startGame.numberOfPlayer;
-    this.position = this.startGame.position;
-    this.difficalty = this.startGame.difficalty;
+    this.numberOfPlayer = startGame.numberOfPlayer;
+    this.position = startGame.position;
+    this.difficalty = startGame.difficalty;
 
-    if(this.startGame.numberOfPlayer===3){
+    this.winningPoint=10;
+
+
+    if(this.numberOfPlayer===0){
       this.p1 = new AIPaddle(this.height, this.paddleWidth, this.paddleHeight, 
                 this.boardGap, ((this.height - this.paddleHeight) / 2),
-                KEYS.a, KEYS.z, this.p1Color /** blue */,
+                'none', 'none', this.p1Color /** blue */,
                 this.width, this.difficalty, 'left');
       this.p2 = new AIPaddle(this.height, this.paddleWidth, this.paddleHeight, 
                 this.width -this.paddleWidth-this.boardGap, 
                 ((this.height - this.paddleHeight) / 2),
-                KEYS.up, KEYS.down, this.p2Color/** purple */,
+                'none', 'none', this.p2Color/** purple */,
                 this.width, this.difficalty, 'right');
-    }else if(this.startGame.numberOfPlayer===2){
+    }else if(this.numberOfPlayer===2){
       this.p1 = new Paddle(this.height, this.paddleWidth, this.paddleHeight, 
                             this.boardGap, ((this.height - this.paddleHeight) / 2),
                             KEYS.a, KEYS.z, this.p1Color /** blue */);
@@ -59,21 +58,20 @@ export default class Game {
                             this.width -this.paddleWidth-this.boardGap, 
                             ((this.height - this.paddleHeight) / 2),
                             KEYS.up, KEYS.down, this.p2Color/** purple */ );
-    }else if (this.startGame.numberOfPlayer===1 && this.startGame.position === 'left'){
+    }else if (this.numberOfPlayer===1 && this.position === 'left'){
       this.p1 = new Paddle(this.height, this.paddleWidth, this.paddleHeight, 
                   this.boardGap, ((this.height - this.paddleHeight) / 2),
                   KEYS.a, KEYS.z, this.p1Color /** blue */);
       this.p2 = new AIPaddle(this.height, this.paddleWidth, this.paddleHeight, 
                   this.width -this.paddleWidth-this.boardGap, 
                   ((this.height - this.paddleHeight) / 2),
-                  KEYS.up, KEYS.down, this.p2Color/** purple */,
+                  'none', 'none', this.p2Color/** purple */,
                   this.width, this.difficalty, 'right');
-    }else if(this.startGame.numberOfPlayer===1 && this.startGame.position === 'right'){
+    }else if(this.numberOfPlayer===1 && this.position === 'right'){
       this.p1 = new AIPaddle(this.height, this.paddleWidth, this.paddleHeight, 
-                            this.width -this.paddleWidth-this.boardGap, 
-                            ((this.height - this.paddleHeight) / 2),
-                            KEYS.up, KEYS.down, this.p2Color/** purple */,
-                            this.width, this.difficalty, 'right');
+                  this.boardGap, ((this.height - this.paddleHeight) / 2),
+                  'none', 'none', this.p1Color /** blue */,
+                  this.width, this.difficalty, 'left');
       this.p2 = new Paddle(this.height, this.paddleWidth, this.paddleHeight, 
                   this.width -this.paddleWidth-this.boardGap, 
                   ((this.height - this.paddleHeight) / 2),
@@ -83,66 +81,32 @@ export default class Game {
 
     this.score1 = new Score(this.width/2-50, 30, 50, this.p1Color );
     this.score2 = new Score(this.width/2+25, 30, 50, this.p2Color );
+    this.winnerP1= new Score(this.width/8, this.height/3,50, this.p1Color);
+    this.losserP2= new Score(this.width*5/8, this.height/3,50, this.p2Color);
+    this.winnerP2= new Score(this.width*5/8, this.height/3,50, this.p2Color);
+    this.losserP1= new Score(this.width/8, this.height/3,50, this.p1Color);
 
     document.addEventListener('keydown', event=> {
-      // console.log(event);
       switch(event.key){
         case KEYS.spaceBar:
           this.pause = !this.pause;
         break;
         case KEYS.g:
-        this.startGame.restart = true;
+        this.restart = true;
         break;
         
       }
-      // console.log(this.pause);
     });
-    
 
     
-
-    
-
-  }
-
-  start(){
-    this.gameElement.innerHTML='';
-    let svg = document.createElementNS(SVG_NS, 'svg');
-    svg.setAttributeNS(null, 'width', this.width);
-    svg.setAttributeNS(null, 'height', this.height);
-    svg.setAttributeNS(null, 'viewBox', `0 0 ${this.width} ${this.height}`);
-    this.gameElement.appendChild(svg);
-    this.board.render(svg);
-    this.startGame.keyEvent();
-    if(this.startGame.restart){
-      if (this.startGame.page === 0) {
-        this.startGame.startSecondPage(svg);
-        return;
-        }
-      else if (this.startGame.page === 1) {
-        this.startGame.startFirstPage(svg);
-        return;
-      }
-      else if (this.startGame.page === 2) {
-        this.startGame.startThirdPage(svg);
-        return;
-      }
-    }
-
   }
 
 
   render() {
 
     // More code goes here....
-    //pause
-    if(this.pause){
-      this.p1.pauseIndicator = 0;
-      this.p2.pauseIndicator = 0;
-      return;
-    }
-    this.p1.pauseIndicator = 1;
-    this.p2.pauseIndicator = 1;
+
+   
 
     //fix the bug :see slide 14
     this.gameElement.innerHTML='';
@@ -152,22 +116,74 @@ export default class Game {
     svg.setAttributeNS(null, 'height', this.height);
     svg.setAttributeNS(null, 'viewBox', `0 0 ${this.width} ${this.height}`);
     this.gameElement.appendChild(svg);
+
+
     //????? instead of render the svg head so many time,
     //can we just do it once?
     //maybe another method that return svg?
-
-
     this.board.render(svg);
     // this.p1.render(svg);
     // this.p2.render(svg);
     // console.log(this.p1);
+    this.score1.render(svg,this.p1.score);
+    this.score2.render(svg,this.p2.score);
+
+    this.p1.render(svg, this.ball);
+    this.p2.render(svg, this.ball);
+
+    if(this.pause){
+      this.p1.pauseIndicator = 0;
+      this.p2.pauseIndicator = 0;
+      return;
+    }
+      this.p1.pauseIndicator = 1;
+      this.p2.pauseIndicator = 1;
+
+    if (this.p1.score>= this.winningPoint && this.p2.score< this.winningPoint){
+      this.winnerP1.winnerDeclare(svg);
+      this.losserP2.losserDeclare(svg);
+      return;
+    }
+    else if(this.p2.score>= this.winningPoint && this.p1.score< this.winningPoint){
+      this.winnerP2.winnerDeclare(svg);
+      this.losserP1.losserDeclare(svg);
+      return;
+    }
     this.ball.render(svg,this.p1,this.p2);
+
 
     this.score1.render(svg,this.p1.score);
     this.score2.render(svg,this.p2.score);
 
     this.p1.render(svg, this.ball);
     this.p2.render(svg, this.ball);
+
+
+    // let text1 = document.createElementNS(SVG_NS, 'text');
+    // text1.setAttributeNS(null, 'x', '50');
+    // text1.setAttributeNS(null, 'y', '200');
+    // text1.setAttributeNS(null, 'font-family', '"Silkscreen Web", monotype');
+    // text1.setAttributeNS(null, 'font-size', '30');
+    // text1.setAttributeNS(null, 'fill', 'yellow');
+    // text1.textContent = 'Player 1 is The Winner';
+
+    // let text2 = document.createElementNS(SVG_NS, 'text');
+    // text2.setAttributeNS(null, 'x', '50');
+    // text2.setAttributeNS(null, 'y', '200');
+    // text2.setAttributeNS(null, 'font-family', '"Silkscreen Web", monotype');
+    // text2.setAttributeNS(null, 'font-size', '30');
+    // text2.setAttributeNS(null, 'fill', 'yellow');
+    // text2.textContent = 'Player 2 is The Winner';
+    // if(this.p1.score === 3){
+    //   svg.appendChild(text1);
+    //   }
+    // if(this.p2.score === 3){
+    //   svg.appendChild(text2);
+    // }
+
+
+
+
 
   }
 }

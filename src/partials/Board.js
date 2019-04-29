@@ -30,7 +30,7 @@ export default class Board {
         text1.setAttributeNS(null, 'font-family', '"Silkscreen Web", monotype');
         text1.setAttributeNS(null, 'font-size', '10');
         text1.setAttributeNS(null, 'fill', 'yellow');
-        text1.textContent='PRESS r TO RESTART';
+        text1.textContent='PRESS g TO RESTART';
         let text2 = document.createElementNS(SVG_NS, 'text');
         text2.setAttributeNS(null, 'x','420' );
         text2.setAttributeNS(null, 'y', '380');
@@ -38,7 +38,7 @@ export default class Board {
         text2.setAttributeNS(null, 'font-size', '10');
         text2.setAttributeNS(null, 'fill', 'yellow');
         text2.textContent='PRESS SpaceBar TO Pause';
-        
+
       svg.appendChild(text1);
       svg.appendChild(text2);
       svg.appendChild(rect);

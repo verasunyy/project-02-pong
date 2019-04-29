@@ -7,7 +7,15 @@ export default class Ball {
         this.radius = radius;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
-        this.direction = -1;
+        this.direction = 0;
+        if(this.direction===0 ){
+            if(Math.floor(Math.random()*10)%2){
+            this.direction = -1;
+            }else{
+                this.direction=1;
+            }
+        }
+        console.log('beginner'+this.direction)
 
         this.strokeColor = ballcolor;
         
@@ -42,7 +50,8 @@ export default class Ball {
         while (this.vy === 0) {
             this.vy = Math.floor(Math.random() * 10 - 5);
             // this.vx = Math.floor(Math.random() * 10 - 5);
-            this.vx = Math.max(this.direction * (6 - Math.abs(this.vy),2.5));
+            this.vx = Math.floor(this.direction * Math.abs(Math.max(6 - Math.abs(this.vy),2.5)));
+            console.log('reset'+this.direction);
         }
     }
 
@@ -117,16 +126,17 @@ export default class Ball {
 
         svg.appendChild(circle);
 
-        const rightGoal = this.x + this.radius >= this.boardWidth;
-        const leftGoal = this.x - this.radius <= 0;
+        const rightGoal = this.x + this.radius >= this.boardWidth;//p1 left player win
+        const leftGoal = this.x - this.radius <= 0;//p2 right player win 
         if(rightGoal){
+            this.direction = -1;
             this.goal(p1);
-            this.direction = 1;
         }
         else if (leftGoal){
+            this.direction = 1;
             this.goal(p2);
-            this.direction = -1;
         }
+        console.log('score' +this.direction);
     }
 
 
