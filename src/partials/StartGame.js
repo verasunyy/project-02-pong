@@ -59,6 +59,7 @@ export default class StartGame {
             }
         });
     }
+    //function that restart the start game
     start(){
         this.startGameElement.innerHTML='';
         let svg = document.createElementNS(SVG_NS, 'svg');
@@ -82,51 +83,9 @@ export default class StartGame {
             return;
           }
         }
-    
       }
-
-    //   text(){
-
-      
-
-    //   let line1 = 'instruction :';
-    //     let line2 = 'avoid the red ball';
-    //     let line3 = 'catch green balls';
-
-    //     let textContents = [line1, line2, line3]
-    //     let textSvg=[];
-
-
-    //     let textBox = [];
-    //     for (let i =0; i<3; i++){
-    //         let height =80+i*80;
-    //         let text = document.createElementNS(SVG_NS, 'text');
-    //         text.setAttributeNS(null, 'x', '120');
-    //         text.setAttributeNS(null, 'y', height);
-    //         text.setAttributeNS(null, 'font-family', '"Silkscreen Web", monotype');
-    //         text.setAttributeNS(null, 'font-size', 20);
-    //         text.setAttributeNS(null, 'fill', 'yellow');
-    //         textBox.push(text);
-    //     }
-    //     let index = 0;
-    //     textBox.forEach(text => {
-    //         conxloe.log(text);
-    //         text.textcontent= textContents[index];
-    //         svg.appendChild(text);
-    //         index++;
-
-    //         console.log(textContents[index]);
-    //         console.log(index);
-
-    //     });
-
-    // }
-
-    startFirstPage(svg) {
-
-
-
-        
+    //drawing the text svg for starting page
+    startFirstPage(svg) {  
         let text1 = document.createElementNS(SVG_NS, 'text');
         text1.setAttributeNS(null, 'x', '120');
         text1.setAttributeNS(null, 'y', '80');
@@ -177,8 +136,6 @@ export default class StartGame {
         text8.setAttributeNS(null, 'fill', 'yellow');
         text8.textContent = 'Expert Press h';
         svg.appendChild(text8);
-
-
     }
     startThirdPage(svg) {
         let text4 = document.createElementNS(SVG_NS, 'text');
@@ -197,7 +154,5 @@ export default class StartGame {
         text5.setAttributeNS(null, 'fill', 'yellow');
         text5.textContent = 'Play right Press r';
         svg.appendChild(text5);
-
-
     }
 }

@@ -1,6 +1,7 @@
 import Paddle from './Paddle';
 
 export default class AIPaddle extends Paddle {
+    //constructor, call super
     constructor(boardHeight, width, height,
         x, y, up, down, strokeColor, boardWidth, difficalty, position) {
         super(boardHeight, width, height,
@@ -8,7 +9,8 @@ export default class AIPaddle extends Paddle {
         this.boardWidth = boardWidth;
         this.difficalty=difficalty;
         this.position = position;
-
+        
+        //set up the the difficaltyrate depends on the difficalty
         if(this.difficalty==='easy'){
         this.difficaltyRate = 1.5;
         this.difficaltyRange = 0;
@@ -26,19 +28,13 @@ export default class AIPaddle extends Paddle {
             this.difficaltyRange = 0;
         }
     }
-
+    //
     render(svg, ball) {
         super.render(svg);
-        // console.log('paddleY: '+this.y);
-        // console.log('BallY:' +ball.x);
-        // console.log('BallX:' +ball.y);
-        // console.log('Boardwidth' +this.boardWidth);
         switch(this.position){
             case 'left':
 
         if (ball.x < this.boardWidth / 2 && ball.vx<0) {
-            // console.log('BallY:' +ball.x);
-            // this.y + this.height/2 - ball.y !== 0
             if ( this.y+this.difficaltyRange>ball.y || this.y+this.height-this.difficaltyRange<ball.y){
                 if(this.y + this.height/2 - ball.y<0 ){
                     if(Math.abs(ball.vy)<Math.abs(ball.vx/2)){
@@ -56,16 +52,12 @@ export default class AIPaddle extends Paddle {
                         this.y = Math.max(this.y - Math.abs(ball.vy)*this.difficaltyRate, 0);
                     }
                 }
-                // console.log('paddleY: '+this.y);
-                // console.log('BallY:' +ball.x);
-                // console.log('BallX:' +ball.y);
             }
         }
         break;
 
         case 'right':
         if (ball.x > this.boardWidth / 2 && ball.vx>0) {
-            // console.log('BallY:' +ball.x);
             if (this.y+this.difficaltyRange>ball.y || this.y+this.height-this.difficaltyRange<ball.y) {
 
                 if(this.y + this.height/2 - ball.y<0 ){
@@ -84,9 +76,6 @@ export default class AIPaddle extends Paddle {
                         this.y = Math.max(this.y - Math.abs(ball.vy)*this.difficaltyRate, 0);
                     }
                 }
-                // console.log('paddleY: '+this.y);
-                // console.log('BallY:' +ball.x);
-                // console.log('BallX:' +ball.y);
             }
         }
         

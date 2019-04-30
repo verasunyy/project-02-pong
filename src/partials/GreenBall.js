@@ -2,7 +2,7 @@ import { SVG_NS } from '../settings';
 import Ball from './Ball';
 
 export default class RedBall extends Ball {
-    //Redballs: paddle collion other player get 10 points
+    //Greenballs: paddle collion  get 5 points
     constructor(radius, boardWidth, boardHeight, ballcolor, difficalty){
         super (radius, boardWidth, boardHeight, ballcolor, difficalty);
 

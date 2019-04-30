@@ -5,15 +5,12 @@ export default class RedBall extends Ball {
     //Redballs: paddle collion other player get 10 points
     constructor(radius, boardWidth, boardHeight, ballcolor, difficalty){
         super (radius, boardWidth, boardHeight, ballcolor, difficalty);
-
         super.ping = new Audio('public/sounds/pong-04.wav');
         this.ballAcceleration=0;
-
     }
     reset() {
         this.x = this.boardWidth / 2;
         this.y = Math.random()*400;
-
         this.vy = 0;
         this.vx = 0;
         while (this.vy ===0 || (this.vx <1.75&&this.vx>-1.75)) {
@@ -25,19 +22,17 @@ export default class RedBall extends Ball {
     stop(){
         this.x=50;
         this.y=-50;
-
         this.vy=0;
         this.vx=0;
     }
     goal(player){
-        console.log(player.score)
+        // console.log(player.score)
         player.score=player.score+10;
     }
     wallCollision() {
         super.wallCollision();
         const hitLeft = this.x - this.radius <= 22;
         const hitRight = this.x + this.radius >= this.boardWidth-22;
-
         if (hitLeft || hitRight) {
             this.vx = -this.vx;
         }
@@ -46,10 +41,8 @@ export default class RedBall extends Ball {
         //update x position with vecotr direction 60 times a second
         this.x += this.vx;
         this.y += this.vy;
-
         this.wallCollision();
         super.paddleCollision(p1, p2);
-        // <circle cx="256" cy="128" r="8" fill="red"/>
         let circle = document.createElementNS(SVG_NS, 'circle');
         circle.setAttributeNS(null, 'fill', 'rgba(255,0,0,0.5');
         circle.setAttributeNS(null, 'cx', this.x);
@@ -57,8 +50,6 @@ export default class RedBall extends Ball {
         circle.setAttributeNS(null, 'r', this.radius);
         circle.setAttributeNS(null, 'stroke', this.strokeColor);
         circle.setAttributeNS(null, 'stroke-width', '2');
-        // circle.setAttributeNS(null, 'x', this.x);
-        // circle.setAttributeNS(null, 'y', this.y);
 
         svg.appendChild(circle);
 
