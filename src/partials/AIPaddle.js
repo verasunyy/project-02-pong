@@ -2,6 +2,7 @@ import Paddle from './Paddle';
 
 export default class AIPaddle extends Paddle {
     //constructor, call super
+    //create a AI paddle
     constructor(boardHeight, width, height,
         x, y, up, down, strokeColor, boardWidth, difficalty, position) {
         super(boardHeight, width, height,
