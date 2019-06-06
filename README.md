@@ -73,10 +73,10 @@ Everytime the play scores the paddle will shorten by certain percentage based on
 ### acceleration
 The ball acceleration will change everytime scores and the rate will change based on the speed of the ball.
 
-###Improvement
+### Improvement
 can add a time intervel to sprawn the balls.
 
-##Final Problem and Improvement
+##  Final Problem and Improvement
 The loops in the index.js is too complecated and need to be simplified. and the game object in side the StartPage loop only because it need to get the property and data from the user. and will stops when the main game starts.
 
 Need to improve the code efficency and need a start and stop button
