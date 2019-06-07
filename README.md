@@ -132,6 +132,11 @@ Also the cancel the keydown event listener after starting the game to avoid prot
 ```
 Game difficulty: hard;
 Player: AI-paddles;
+
+Game rules:
+Black Ball (main ball): 1 point;
+Small Green Balls (add-ons): +5 points;
+Big Red Balls (add-ons): other player +10 points;
 ```
 
 ### 1. Start-game
