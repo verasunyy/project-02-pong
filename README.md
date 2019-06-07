@@ -52,7 +52,7 @@ Add an end page to delcare the winner and losser by the locate the "winner" and 
 
 After that press g to restart the game
 
-### problem 
+### problem - solved
 Problem with the restarting game is the need that game loop keeps running. And a seperate class StartGame was created to draw the svgs.
 
 ### Improve
@@ -76,7 +76,7 @@ The ball acceleration will change everytime scores and the rate will change base
 ### Improvement
 can add a time intervel to sprawn the balls.
 
-##  Final Problem and Improvement
+##  Final Problem and Improvement - Solved
 The loops in the index.js is too complecated and need to be simplified. and the game object in side the StartPage loop only because it need to get the property and data from the user. and will stops when the main game starts.
 
 Need to improve the code efficency and need a start and stop button
@@ -119,7 +119,26 @@ function stopAnimation(){
 
 ```
 
-## warning 
+## Warning - solved - no need to be worried
 Because of that (getting value from the user and loop creating the game object )running the game in a **GOOD** computer!!!! Otherwise it will crush. But will be **stop** after the main game start.
 
 
+## Revised Version
+Fixed the problem of creating a new game object so many time that potentially breaks the browser by adding a start button.
+
+Also the cancel the keydown event listener after starting the game to avoid protential conflick.
+
+## Some Screenshot
+```
+Game difficulty: hard;
+Player: AI-paddles;
+```
+
+### 1. Start-game
+![Beginning of the game](screenshot/screenshot-beginning.gif)
+
+### 2. Mid-game
+![Middle of the game](screenshot/screenshot-mid-game.gif)
+
+### 3. End-game
+![Beginning of the game](screenshot/screenshot-end-winning.gif)
