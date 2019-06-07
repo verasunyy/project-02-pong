@@ -85,7 +85,7 @@ h1 {
   text-align: center;
 }
 
-button{
+.start{
   display:none;
   font-family: 'Silkscreen Web', monotype;
   color:yellow;
