@@ -13,51 +13,85 @@ export default class StartGame {
         this.difficalty = 'easy';
         this.startGameElement = document.getElementById(this.element);
         this.board = new Board(this.width, this.height);
+
     }
-    keyEvent() {
+    keyEvent(){
+        let isCancelKeyDown=false;
         document.addEventListener('keydown', event => {
-            switch (event.key) {
-                case KEYS.e:
-                    this.difficalty = 'easy';
-                    this.page = 1;
-                    break;
-                case KEYS.m:
-                    this.difficalty = 'medium';
-                    this.page = 1;
-                    break;
-                case KEYS.h:
-                    this.difficalty = 'hard';
-                    this.page = 1;
-                    break;
-                case KEYS.s:
+          if(isCancelKeyDown){
+            event.preventDefault();
+          }else{
+          switch (event.key) {
+              case KEYS.e:
+                  this.difficalty = 'easy';
+                  this.page = 1;
+                  this.start();
+                  break;
+              case KEYS.m:
+                  this.difficalty = 'medium';
+                  this.page = 1;
+                  this.start();
+                  break;
+              case KEYS.h:
+                  this.difficalty = 'hard';
+                  this.page = 1;
+                  this.start();
+                  break;
+                  case KEYS.s:
                     this.numberOfPlayer = 1;
                     this.page = 2;
+                    this.start();
                     break;
                 case KEYS.t:
                     this.numberOfPlayer = 2;
                     this.page = 0;
                     this.restart = false;
+                    this.initialStart();
+                    isCancelKeyDown=true;
                     break;
                 case KEYS.d:
                     this.numberOfPlayer = 0;
                     this.page = 0;
                     this.restart = false;
+                    this.initialStart();
+                    isCancelKeyDown=true;
                     break;
                 case KEYS.l:
                     this.position = 'left';
                     this.restart = false;
                     this.page = 0;
+                    this.initialStart();
+                    isCancelKeyDown=true;
                     break;
                 case KEYS.r:
                     this.position = 'right';
                     this.restart = false;
                     this.page = 0;
+                    this.initialStart();
+                    isCancelKeyDown=true;
                     break;
-                    case KEYS.g:
-                    this.restart = true;
-                    break;
-            }
+      
+          }
+        }
         });
+      
+        document.addEventListener('keydown', event => {
+          if (event.key==KEYS.g){
+            this.restart = true;
+          }
+        });
+}
+    initialStart(){
+        let showStartButton= document.getElementById("start").classList.add("show-button");
+        this.startGameElement.innerHTML='';
+        let svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttributeNS(null, 'width', this.width);
+        svg.setAttributeNS(null, 'height', this.height);
+        svg.setAttributeNS(null, 'viewBox', `0 0 ${this.width} ${this.height}`);
+        this.startGameElement.appendChild(svg);
+        this.board.render(svg);
+        this.initialPage(svg);
+        showStartButton;
     }
     //function that restart the start game
     start(){
@@ -85,6 +119,16 @@ export default class StartGame {
         }
       }
     //drawing the text svg for starting page
+    initialPage(svg) {  
+        let text0 = document.createElementNS(SVG_NS, 'text');
+        text0.setAttributeNS(null, 'x', '120');
+        text0.setAttributeNS(null, 'y', '80');
+        text0.setAttributeNS(null, 'font-family', '"Silkscreen Web", monotype');
+        text0.setAttributeNS(null, 'font-size', 20);
+        text0.setAttributeNS(null, 'fill', 'yellow');
+        text0.textContent = 'Click Start Button to Start';
+        svg.appendChild(text0);
+    }
     startFirstPage(svg) {  
         let text1 = document.createElementNS(SVG_NS, 'text');
         text1.setAttributeNS(null, 'x', '120');

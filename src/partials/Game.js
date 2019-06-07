@@ -120,6 +120,7 @@ export default class Game {
 
 
   render() {
+    console.log("game render(): "+this.numberOfPlayer, this.position, this.difficalty);
 
     //fix the bug :see slide 14
     this.gameElement.innerHTML = '';
